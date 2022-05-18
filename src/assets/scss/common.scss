@@ -1,0 +1,78 @@
+// ie盒子模型 去除内外边距
+@mixin initialize {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+// 弹性居中
+@mixin flex-center-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// 弹性均分
+@mixin flex-around-center {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+// 弹性垂直居中 均匀排列每个元素
+@mixin flex-around-center {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.flex-a-c {
+    @include flex-around-center
+}
+// 弹性垂直居中 均匀排列每个元素 首个元素放置于起点，末尾元素放置于终点
+@mixin flex-between-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.flex-b-c {
+    @include flex-between-center
+}
+// 文本一行显示省略号
+@mixin ellipsis-line-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 多行文本显示省略号
+@mixin ellipsis-line-2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
+}
+
+
+// 禁止用户选中文本
+@mixin utils-user-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+// 0.5px边框
+  @mixin zeroPointFiveHR {
+    height: 1px;
+    transform-origin: bottom center;
+    transform: scaleY(0.5);
+  }
+
+// 定位水平垂直居中
+@mixin position-center-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+}

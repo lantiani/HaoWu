@@ -2,18 +2,44 @@
   <div>
     <router-view></router-view>
     <van-tabbar v-model="active">
-      <van-tabbar-item icon="home-o" to="/home/index">首页</van-tabbar-item>
-      <van-tabbar-item icon="cart-o" dot to="/home/cart">购物车</van-tabbar-item>
-      <van-tabbar-item icon="friends-o" badge="5" to="/home/user">个人中心</van-tabbar-item>
+      <van-tabbar-item to="/home/index" v-for="item in icons" :key="item.active">
+        <span>{{ item.text }}</span>
+        <template #icon="props">
+          <img :src="props.active ? item.active : item.inactive" />
+        </template>
+      </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
 <script>
+import iconHome from '../assets/images/icon-home.png';
+import iconHomeA from '../assets/images/icon-home-a.png';
+import iconCart from '../assets/images/icon-cart.png';
+import iconCartA from '../assets/images/icon-cart-a.png';
+import iconMime from '../assets/images/icon-mime.png';
+import iconMimeA from '../assets/images/icon-mime-a.png';
 export default {
   data() {
     return {
       active: 0,
+      icons: [
+        {
+          active: iconHome,
+          inactive: iconHomeA,
+          text:'首页'
+        },
+        {
+          active: iconCart,
+          inactive: iconCartA,
+          text:'购物车'
+        },
+        {
+          active: iconMime,
+          inactive: iconMimeA,
+          text:'个人中心'
+        },
+      ]
     };
   },
   watch: {
@@ -33,5 +59,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.van-tabbar {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow: hidden;
+  .van-tabbar-item {
+    // background: rgb(179, 255, 194);
+  }
+
+}
 </style>

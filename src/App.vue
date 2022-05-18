@@ -1,8 +1,6 @@
 <template>
     <div class="app">
-
-        <van-nav-bar v-show="isShow" :title="title" left-text="返回" left-arrow
-            @click-left="$router.back()" />
+        <van-nav-bar v-show="isShow" :title="title" left-text="返回" left-arrow @click-left="$router.back()" />
         <router-view />
     </div>
 </template>
@@ -12,22 +10,26 @@ export default {
     data() {
         return {
             title: '好物',
-            isShow: false
+            isShow: false,
         }
     },
     watch: {
-        '$route':{
-              handler: function (newRoute, oldRoute) {
-                  let {title,isIndexShow} = newRoute.meta;
-                  this.title = title;
-                  this.isShow = !isIndexShow;
-              },
+        '$route': {
+            handler: function (newRoute, oldRoute) {
+                let { title, isIndexShow } = newRoute.meta;
+                this.title = title;
+                this.isShow = !isIndexShow;
+            },
             //    immediate: true
         }
     }
 }
 </script>
 <style lang="scss">
+// @import './assets/scss/common.scss';
+html {
+    scroll-behavior:smooth;   
+}
 .app {
     min-width: 320px;
     max-width: 750px;
