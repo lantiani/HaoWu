@@ -27,8 +27,13 @@ export default {
 </script>
 <style lang="scss">
 // @import './assets/scss/common.scss';
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 html {
-    scroll-behavior:smooth;   
+    scroll-behavior:smooth;
 }
 .app {
     min-width: 320px;

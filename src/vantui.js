@@ -1,7 +1,18 @@
 import Vue from 'vue';
 import 'vant/lib/index.css';
-import { Tabbar, TabbarItem, NavBar, Search, Swipe, SwipeItem, Grid, GridItem, Image, Divider, Lazyload } from 'vant';
+import { Tabbar, TabbarItem, NavBar, Search, Swipe, SwipeItem, Grid, GridItem, Image, Divider, Lazyload,List,PullRefresh,Image as VanImage,Tag,CouponCell, CouponList,Popup,GoodsAction, GoodsActionIcon, GoodsActionButton,Button,} from 'vant';
 
+Vue.use(Button);
+Vue.use(GoodsAction);
+Vue.use(GoodsActionButton);
+Vue.use(GoodsActionIcon);
+Vue.use(Popup)  
+Vue.use(CouponList);
+Vue.use(CouponCell);    
+Vue.use(Tag)
+Vue.use(VanImage);
+Vue.use(PullRefresh);
+Vue.use(List);
 Vue.use(Lazyload, {
     lazyComponent: true,
 });

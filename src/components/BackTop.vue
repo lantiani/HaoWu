@@ -6,6 +6,7 @@
 
 <script>
 export default {
+    name:'BackTop',
     props:{
         goTop:{
             top:Number,

@@ -2,7 +2,7 @@
   <div>
     <router-view></router-view>
     <van-tabbar v-model="active">
-      <van-tabbar-item to="/home/index" v-for="item in icons" :key="item.active">
+      <van-tabbar-item :to="item.url" v-for="item in icons" :key="item.active">
         <span>{{ item.text }}</span>
         <template #icon="props">
           <img :src="props.active ? item.active : item.inactive" />
@@ -27,17 +27,20 @@ export default {
         {
           active: iconHome,
           inactive: iconHomeA,
-          text:'首页'
+          text:'首页',
+          url:'/home/index'
         },
         {
           active: iconCart,
           inactive: iconCartA,
-          text:'购物车'
+          text:'购物车',
+          url:'/home/cart'
         },
         {
           active: iconMime,
           inactive: iconMimeA,
-          text:'个人中心'
+          text:'个人中心',
+          url:'/home/user'
         },
       ]
     };
@@ -64,9 +67,9 @@ export default {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   overflow: hidden;
-  .van-tabbar-item {
-    // background: rgb(179, 255, 194);
-  }
+  // .van-tabbar-item {
+  //   // background: rgb(234, 232, 232);
+  // }
 
 }
 </style>
