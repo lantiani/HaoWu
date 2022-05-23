@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import Index from '../views/Index.vue'
+import store from '../store/index.js'
 // 注册路由插件
 Vue.use(VueRouter)
 
@@ -36,7 +37,8 @@ const routes = [
                 component: () => import('../views/User.vue'),
                 meta: {
                     name: 'User',
-                    isIndexShow: true
+                    isIndexShow: true,
+                    requireAuth:true
                 }
             },
         ],
@@ -61,6 +63,20 @@ const routes = [
         meta: {
             title:'商品详情'
         }
+    },
+    {
+        path:'/login',
+        component:() => import('../views/Login.vue'),
+        meta:{
+            title:'登录'
+        }
+    },
+    {
+        path:'/register',
+        component:() => import('../views/Register.vue'),
+        meta:{
+            title:'注册'
+        }
     }
 ]
 
@@ -73,7 +89,11 @@ NProgress.configure({
 });
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    next()
+    if(to.fullPath == '/home/user') {
+        console.log(to.fullPath);
+        router.push('/login')
+    }
+    next();
 })
 
 router.afterEach((to, from) => {

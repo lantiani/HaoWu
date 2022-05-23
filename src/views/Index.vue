@@ -64,8 +64,8 @@ export default {
 
 <style lang="scss" scoped>
 .van-tabbar {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  // border-top-left-radius: 20px;
+  // border-top-right-radius: 20px;
   overflow: hidden;
   // .van-tabbar-item {
   //   // background: rgb(234, 232, 232);

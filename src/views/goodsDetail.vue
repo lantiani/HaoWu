@@ -29,7 +29,6 @@
             </div>
 
             <p class="goodsTitle">
-
                 <span class="goodsText">
                     <van-tag type="danger">自营</van-tag>
                     {{ goodsSuggest.title }}
@@ -53,17 +52,21 @@
         <!-- 底部栏 -->
         <van-goods-action>
             <van-goods-action-icon icon="chat-o" text="客服" />
-            <van-goods-action-icon icon="shop-o" text="店铺" />
-            <van-goods-action-button color="#be99ff" type="warning" text="加入购物车" />
-            <van-goods-action-button color="#7232dd" type="danger" text="立即购买" />
+            <van-goods-action-icon icon="cart-o" text="购物车" :badge="$store.state.goodsInfo.length" @click="getCart" />
+            <van-goods-action-button color="#be99ff" type="warning" text="加入购物车" @click="showCart" />
+            <van-goods-action-button color="#7232dd" type="danger" text="立即购买" @click="showBuyCart" />
         </van-goods-action>
+
+        <!-- sku -->
+        <van-sku v-model="show" :sku="sku" :goods="goods" :goods-id="goodsSuggest.id" :showAddCartBtn="showAddCartBtn"
+            @add-cart="addGoodsToCart"  @buy-clicked="buyGoods" />
     </div>
 </template>
 
 <script>
 import { ImagePreview } from 'vant';
 import { fetchGoodsSwipe, fetchGoodsDetail } from '../api/goodsDetail.js';
-
+import { Toast } from 'vant';
 const coupon = {
     available: 1,
     condition: '无使用门槛\n最多优惠12元',
@@ -89,6 +92,24 @@ export default {
             disabledCoupons: [coupon],
             showList: false,
             // 优惠卷结束
+
+            // sku
+            show: false,
+            showAddCartBtn: true,
+            sku: {
+                // 数据结构见下方文档
+                tree: [],
+                price: 0,
+                stock_num: 0,
+            },
+            goods: {
+                // 数据结构见下方文档
+                picture: '',
+            },
+            messageConfig: {
+                // 数据结构见下方文档
+            },
+            // sku结束
         };
     },
     created() {
@@ -106,12 +127,16 @@ export default {
         async _fetchGoodsSwipe() {
             let { message } = await fetchGoodsSwipe(this.id);
             this.goodsPhoto = message;
-            console.log(message);
+            // sku获取商品图片
+            this.goods.picture = this.goodsPhoto[0].src;
         },
         async _fetchGoodsDetail() {
             let { message } = await fetchGoodsDetail(this.id);
             this.goodsSuggest = message;
-            console.log(this.goodsSuggest);
+            console.log(message);
+            // sku赋值
+            this.sku.price = message.sell_price;
+            this.sku.stock_num = message.stock_quantity;
         },
         // 优惠卷方法
         onChange(index) {
@@ -122,6 +147,41 @@ export default {
             this.coupons.push(coupon);
         },
         // 优惠卷结束
+
+        // 购物车
+        showCart() {
+            this.show = true;
+            this.showAddCartBtn = true;
+        },
+        showBuyCart() {
+            this.show = true;
+            this.showAddCartBtn = false;
+        },
+        addGoodsToCart(skuData) {
+            let { goodsId, selectedNum } = skuData;
+            let price = this.goodsSuggest.sell_price;
+            let picture = this.goods.picture;
+            let title = this.goodsSuggest.title;
+            let zhaiyao = this.goodsSuggest.zhaiyao;
+            let obj = { price, picture, title,zhaiyao,id: goodsId, count: selectedNum, checked: true };
+            this.$store.commit('addGoodsToCarts', obj);
+            this.show = false;
+            Toast.success('添加成功');
+        },
+        buyGoods(skuData) {
+            let { goodsId, selectedNum } = skuData;
+            let price = this.goodsSuggest.sell_price;
+            let picture = this.goods.picture;
+            let title = this.goodsSuggest.title;
+             let zhaiyao = this.goodsSuggest.zhaiyao;
+            let obj = { price, picture,title,zhaiyao, id: goodsId, count: selectedNum, checked: true };
+            this.$store.commit('addGoodsToCarts', obj);
+            this.show = false;
+            this.$router.push('/home/cart');
+        },
+        getCart() {
+            this.$router.push('/home/cart');
+        },
     }
 }
 </script>
@@ -130,7 +190,6 @@ export default {
 @import '../assets/scss/common.scss';
 
 .app {
-    // margin: 0 10px;
     background: #f2f2f2;
 
     .van-swipe {
@@ -199,7 +258,6 @@ export default {
                 font-size: 15px;
             }
         }
-
     }
 
     .goodsSuggest {
@@ -214,17 +272,16 @@ export default {
             width: 100%;
             color: #666;
 
-            ::v-deep img {
+            ::v-deep table {
                 width: 100%;
                 height: 100%;
             }
 
-            ::v-deep table {
+            ::v-deep img {
                 width: 100%;
                 height: 100%;
             }
         }
     }
-
 }
 </style>
