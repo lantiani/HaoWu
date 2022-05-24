@@ -178,6 +178,7 @@ export default {
             this.$store.commit('addGoodsToCarts', obj);
             this.show = false;
             this.$router.push('/home/cart');
+            
         },
         getCart() {
             this.$router.push('/home/cart');

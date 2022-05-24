@@ -13,6 +13,10 @@ var instance = axios.create(
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
     // console.log('请求拦截器');
+    if(store.state.token) {
+        config.headers['token'] = store.state.token;
+    }
+    config.headers['If-Modified-Since'] = 0; //设置请求头，告诉服务端不要缓存，获取最新数据
     // 在发送请求之前做些什么
     Toast.loading({
         message: '加载中...',
@@ -28,6 +32,16 @@ instance.interceptors.request.use(function (config) {
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
     // 对响应数据做点什么
+    if(response.data.status === 40001) {
+        store.commit('clearUserInfo')
+        Toast(response.data.message);
+        router.replace({
+            path:'/login',
+            query:{
+                redirect:router.currentRoute.fullPath
+            }
+        })
+    }
     Toast.clear();
     return response.data;
 }, function (error) {

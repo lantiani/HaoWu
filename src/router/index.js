@@ -28,7 +28,8 @@ const routes = [
                 component: () => import('../views/Cart.vue'),
                 meta: {
                     name: 'Cart',
-                    title: '购物车'
+                    title: '购物车',
+                    requireAuth:true
                     // isIndexShow: true
                 }
             },
@@ -55,6 +56,7 @@ const routes = [
         component: () => import('../views/Order.vue'),
         meta: {
             title: '我的订单',
+            requireAuth:true
         }
     },
     {
@@ -77,6 +79,38 @@ const routes = [
         meta:{
             title:'注册'
         }
+    },
+    {
+        path:'/Address',
+        component:() => import('../views/Address.vue'),
+        meta:{
+            title:'地址',
+            requireAuth:true
+        }
+    },
+    {
+        path:'/AddAddress',
+        component:() => import('../views/AddAddress.vue'),
+        meta:{
+            title:'新增地址',
+            requireAuth:true
+        }
+    },
+    {
+        path:'/EditAddress/:userAddress',
+        component:() => import('../views/EditAddress.vue'),
+        meta:{
+            title:'修改地址',
+            requireAuth:true
+        }
+    },
+    {
+        path:'/settleGoods',
+        component:() => import('../views/settleGoods.vue'),
+        meta:{
+            title:'提交订单',
+            requireAuth:true
+        }
     }
 ]
 
@@ -89,10 +123,21 @@ NProgress.configure({
 });
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    if(to.fullPath == '/home/user') {
-        console.log(to.fullPath);
-        router.push('/login')
+    // store.state.token
+    if(to.meta.requireAuth) {
+        if(store.state.token){
+            next()
+        }else{
+            router.push('/login')
+            return;
+        }
+    } else {
+        next()
     }
+    // if(to.fullPath == '/home/user') {
+    //     console.log(to.fullPath);
+    //     router.push('/login')
+    // }
     next();
 })
 

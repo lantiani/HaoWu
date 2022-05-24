@@ -6,7 +6,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         checkAll: false,
-        goodsInfo: []
+        goodsInfo: [],
+        userInfo:'',
+        token:'',
+        areaData:[]
     },
     mutations: {
         addGoodsToCarts(state, goods) {
@@ -14,6 +17,7 @@ export default new Vuex.Store({
             if (index === -1) {
                 state.goodsInfo.unshift(goods);
             } else {
+
                 state.goodsInfo[index].count += goods.count;
             }
         },
@@ -33,6 +37,25 @@ export default new Vuex.Store({
         },
         unGoodsData(state,{index}) {
             state.goodsInfo.splice(index,1);
+        },
+        // 设置用户登录信息
+        setUserInfo(state,{userInfo}) {
+            state.userInfo = userInfo
+        },
+        setToken(state,{token}) {
+            state.token = token;
+        },
+        clearUserInfo(state) {
+            state.userInfo = '';
+            state.token = '';
+        },
+        // 更新头像
+        uploadImg(state,src) {
+            state.userInfo.avatar = src
+        },
+        // 添加地址
+        addAddress(state,{areaData}) {
+            state.areaData = areaData;
         }
     },
     getters: {

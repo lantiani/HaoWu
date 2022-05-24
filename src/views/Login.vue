@@ -31,6 +31,8 @@ export default {
             if(status === 0) {
                 Toast.success(message);
                 this.$router.push('/');
+                this.$store.commit('setUserInfo',{userInfo});
+                this.$store.commit('setToken',{token});
             }
         },
     },

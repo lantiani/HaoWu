@@ -1,5 +1,15 @@
 <template>
   <div class="app">
+    <div class="areaWarp">
+      <van-checkbox :value="userAddress.isDefault"></van-checkbox>
+      <div>
+        <div class="userInfo">
+          <span>{{ userAddress.name }}</span> <span>{{ userAddress.tel }}</span>
+        </div>
+        <div>{{ userAddress.province }}{{ userAddress.city }}{{ userAddress.country }}</div>
+      </div>
+    </div>
+
     <div class="cardWarp">
       <div class="bagImg" v-if="goodsData.length === 0 ? true : false">
         <img src="../assets/images/car.png" alt="">
@@ -14,8 +24,7 @@
           <van-checkbox v-model="$store.getters.isChecked[item.id]"
             @click="isChecked(index, $store.getters.isChecked[item.id])"></van-checkbox>
         </div>
-        <van-card :num="item.count" class="goods-card"
-          :thumb="item.picture">
+        <van-card :num="item.count" class="goods-card" :thumb="item.picture">
           <div slot="title" class="title van-ellipsis">
             {{ item.title }}
           </div>
@@ -47,13 +56,18 @@
 
 <script>
 import { Toast } from 'vant';
+import { fetchUserArea } from '../api/user.js'
 export default {
   data() {
     return {
       isShow: false,
       isCheck: true,
       goodsData: this.$store.state.goodsInfo,
+      userAddress: '',
     }
+  },
+  created() {
+    this.getUserAddress()
   },
   methods: {
     changeCount(index, count) {
@@ -68,13 +82,28 @@ export default {
     unGoods(index) {
       this.$store.commit('unGoodsData', { index });
       Toast.success('删除成功')
+    },
+    async getUserAddress() {
+      let result = await fetchUserArea(this.$store.state.userInfo.id);
+      this.userAddress = result.find(item => item.isDefault);
+      result.forEach(item => {
+        if (!item.isDefault) {
+          this.$dialog.confirm({
+            message: '请先选择地址'
+          })
+        }
+      });
     }
+  },
+  computed: {
+
   },
   filters: {
     showPrice(price) {
       return '￥' + price.toFixed(2);
     }
-  }
+  },
+
 }
 </script>
 
@@ -158,8 +187,21 @@ export default {
       }
     }
   }
+
   .van-submit-bar {
     bottom: 50px;
+  }
+
+  .areaWarp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid red;
+
+    .userInfo {
+      display: flex;
+    }
   }
 
 }
