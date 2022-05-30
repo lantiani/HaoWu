@@ -7,9 +7,9 @@ export default new Vuex.Store({
     state: {
         checkAll: false,
         goodsInfo: [],
-        userInfo:'',
-        token:'',
-        areaData:[]
+        userInfo: '',
+        token: '',
+        areaData: []
     },
     mutations: {
         addGoodsToCarts(state, goods) {
@@ -32,17 +32,21 @@ export default new Vuex.Store({
                 item.checked = state.checkAll;
             })
         },
-        isCheckeds(state, { index, checked }) {
-            state.goodsInfo[index].checked = checked;
+        isCheckeds(state, { id, checked }) {
+            state.goodsInfo.forEach(item => {
+                if (item.id === id) {
+                    item.checked = checked
+                }
+            })
         },
-        unGoodsData(state,{index}) {
-            state.goodsInfo.splice(index,1);
+        unGoodsData(state, { id }) {
+            state.goodsInfo = state.goodsInfo.filter(item => item.id !== id);
         },
         // 设置用户登录信息
-        setUserInfo(state,{userInfo}) {
+        setUserInfo(state, { userInfo }) {
             state.userInfo = userInfo
         },
-        setToken(state,{token}) {
+        setToken(state, { token }) {
             state.token = token;
         },
         clearUserInfo(state) {
@@ -50,12 +54,16 @@ export default new Vuex.Store({
             state.token = '';
         },
         // 更新头像
-        uploadImg(state,src) {
+        uploadImg(state, src) {
             state.userInfo.avatar = src
         },
         // 添加地址
-        addAddress(state,{areaData}) {
+        addAddress(state, { areaData }) {
             state.areaData = areaData;
+        },
+        // 删除已购买商品
+        clearBuyGoods(state) {
+            state.goodsInfo = state.goodsInfo.filter(item => !item.checked)
         }
     },
     getters: {
@@ -65,6 +73,20 @@ export default new Vuex.Store({
                 num[index] = item.count
             });
             return num;
+        },
+        selectInCount(state) {
+            let num = 0;
+            state.goodsInfo.forEach((item, index) => {
+                if (item.checked) {
+                    num += item.count;
+                }
+            });
+            return num;
+        },
+        selectGoodsId(state) {
+            let goodsId = [];
+            state.goodsInfo.forEach(item => item.checked && goodsId.push(item.id))
+            return goodsId.join(',')
         },
         goodsPrice(state) {
             let prices = 0;
@@ -88,6 +110,10 @@ export default new Vuex.Store({
                 checked[item.id] = item.checked;
             })
             return checked;
+        },
+        getCartGoods(state) {
+            return state.goodsInfo.map(item => item.id).join(',')
+
         }
     },
     plugins: [createPersistedState()]

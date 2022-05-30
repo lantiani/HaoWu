@@ -5,7 +5,6 @@ export function fetchRegister(userData) {
 }
 
 export function fetchLogin(userData) {
-    console.log('aa');
     return axios.post('/login',userData)
 }
 
@@ -22,4 +21,11 @@ export function fetchUserArea(user_id) {
 }
 export function fetchUpdateArea(id,data) {
     return axios.post(`updateaddress/${id}`,data)
+}
+export function fetchDeleteArea(address_id) {
+    return axios.post(`deladdress/${address_id}`)
+}
+
+export function fetchGoods(goods_id) {
+    return axios.get(`/getshopcarlist/${goods_id}`)
 }

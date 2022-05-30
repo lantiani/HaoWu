@@ -2,14 +2,14 @@
     <div>
         <van-address-edit :area-list="areaList" show-postal show-set-default
             :area-columns-placeholder="['请选择', '请选择', '请选择']" @save="onSave" @change-area="changeArea"
-            :address-info="areaData" />
+            :address-info="areaData" show-delete @delete="onDelete" />
     </div>
 </template>
 
 <script>
 import { Toast } from 'vant';
 import { areaList } from '@vant/area-data';
-import { fetchUpdateArea } from '../api/user'
+import { fetchUpdateArea, fetchDeleteArea } from '../api/user'
 export default {
     data() {
         return {
@@ -20,16 +20,12 @@ export default {
         };
     },
     created() {
-        // console.log(JSON.parse(this.$route.params.userAddress));
         this.editAddressInfo = JSON.parse(this.$route.params.userAddress);
         this.isDefault = this.editAddressInfo.isDefault ? 1 : 0;
-        // console.log(this.isDefault);
         this.areaCode = this.editAddressInfo.areaCode
-        // this.areaStr()
     },
     methods: {
         async onSave(areaData) {
-            // areaData.isDefault = areaData.isDefault ? 1 : 0;
             let data = {
                 ...areaData,
                 isDefault: areaData.isDefault ? 1 : 0
@@ -37,14 +33,21 @@ export default {
             data.country = data.county;
             data.fullAreaCode = this.areaCode;
             data.areaCode = this.areaCode;
-            let {status,message} = await fetchUpdateArea(areaData.id, data);
+            let { status, message } = await fetchUpdateArea(areaData.id, data);
             Toast.success(message);
-            if(status === 0) {
+            if (status === 0) {
                 this.$router.back();
             }
         },
         changeArea(area) {
             this.areaCode = area.map(item => item.code).join('-');
+        },
+        async onDelete(area) {
+            let { status, message } = await fetchDeleteArea(area.id);
+            Toast(message);
+            if (status === 0) {
+                this.$router.back()
+            }
         }
     },
     computed: {

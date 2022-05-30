@@ -158,6 +158,10 @@ export default {
             this.showAddCartBtn = false;
         },
         addGoodsToCart(skuData) {
+            if (this.$store.state.userInfo.length === 0) {
+                this.$toast('当前状态未登录');
+                return
+            }
             let { goodsId, selectedNum } = skuData;
             let price = this.goodsSuggest.sell_price;
             let picture = this.goods.picture;
@@ -169,6 +173,10 @@ export default {
             Toast.success('添加成功');
         },
         buyGoods(skuData) {
+            if (this.$store.state.userInfo.length === 0) {
+                this.$toast('当前状态未登录');
+                return
+            }
             let { goodsId, selectedNum } = skuData;
             let price = this.goodsSuggest.sell_price;
             let picture = this.goods.picture;

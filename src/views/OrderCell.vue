@@ -62,7 +62,6 @@ export default {
   width: 80%;
   height: 1px;
   transition:calc(0.5);
-  background: #ccc;
 }
 .text,
 .van-cell__title {

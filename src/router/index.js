@@ -20,8 +20,18 @@ const routes = [
                 component: () => import('../views/Home.vue'),
                 meta: {
                     name: 'Home',
-                    isIndexShow: true
-                }
+                    isIndexShow: true,
+                    showSearchAction:false
+                },
+                children:[
+                    {
+                        path:'search',
+                        component:() =>import('../views/Search.vue'),
+                        meta:{
+                            showSearchAction:true
+                        }
+                    }
+                ]
             },
             {
                 path: 'cart',
@@ -29,7 +39,7 @@ const routes = [
                 meta: {
                     name: 'Cart',
                     title: '购物车',
-                    requireAuth:true
+                    // requireAuth:true,
                     // isIndexShow: true
                 }
             },
@@ -39,7 +49,7 @@ const routes = [
                 meta: {
                     name: 'User',
                     isIndexShow: true,
-                    requireAuth:true
+                    // requireAuth:true
                 }
             },
         ],
@@ -105,13 +115,21 @@ const routes = [
         }
     },
     {
-        path:'/settleGoods',
-        component:() => import('../views/settleGoods.vue'),
+        path:'/orderdetail/:order_id',
+        component:() => import('../views/orderDetail.vue'),
         meta:{
-            title:'提交订单',
+            title:'订单详情',
             requireAuth:true
         }
-    }
+    },
+    {
+        path:'/searchresult/:searchInfo',
+        component:() => import('../views/SearchResult.vue'),
+        meta:{
+            title:'搜索列表',
+            isIndexShow: true
+        }
+    },
 ]
 
 const router = new VueRouter({
@@ -123,7 +141,7 @@ NProgress.configure({
 });
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    // store.state.token
+    store.state.token
     if(to.meta.requireAuth) {
         if(store.state.token){
             next()
@@ -135,7 +153,6 @@ router.beforeEach((to, from, next) => {
         next()
     }
     // if(to.fullPath == '/home/user') {
-    //     console.log(to.fullPath);
     //     router.push('/login')
     // }
     next();

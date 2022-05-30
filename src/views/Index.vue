@@ -1,6 +1,8 @@
 <template>
   <div>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <van-tabbar v-model="active">
       <van-tabbar-item :to="item.url" v-for="item in icons" :key="item.active">
         <span>{{ item.text }}</span>
@@ -27,20 +29,20 @@ export default {
         {
           active: iconHome,
           inactive: iconHomeA,
-          text:'首页',
-          url:'/home/index'
+          text: '首页',
+          url: '/home/index'
         },
         {
           active: iconCart,
           inactive: iconCartA,
-          text:'购物车',
-          url:'/home/cart'
+          text: '购物车',
+          url: '/home/cart'
         },
         {
           active: iconMime,
           inactive: iconMimeA,
-          text:'个人中心',
-          url:'/home/user'
+          text: '个人中心',
+          url: '/home/user'
         },
       ]
     };
@@ -63,13 +65,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.van-tabbar {
-  // border-top-left-radius: 20px;
-  // border-top-right-radius: 20px;
-  overflow: hidden;
-  // .van-tabbar-item {
-  //   // background: rgb(234, 232, 232);
-  // }
+// .van-tabbar {
+//   // border-top-left-radius: 20px;
+//   // border-top-right-radius: 20px;
+//   overflow: hidden;
+//   // .van-tabbar-item {
+//   //   // background: rgb(234, 232, 232);
+//   // }
 
-}
+// }
 </style>

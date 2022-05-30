@@ -1,7 +1,13 @@
 import Vue from 'vue';
 import 'vant/lib/index.css';
-import { Tabbar, TabbarItem, NavBar, Search, Swipe, SwipeItem, Grid, GridItem, Image, Divider, Lazyload,List,PullRefresh,Image as VanImage,Tag,CouponCell, CouponList,Popup,GoodsAction, GoodsActionIcon, GoodsActionButton,Button,Sku,SwipeCell,Card,Stepper,Checkbox,SubmitBar,Form,Field,Cell,Icon,Uploader,AddressList,AddressEdit, } from 'vant';
+import { Tabbar, TabbarItem, NavBar, Search, Swipe, SwipeItem, Grid, GridItem, Image, Divider, Lazyload,List,PullRefresh,Image as VanImage,Tag,CouponCell, CouponList,Popup,GoodsAction, GoodsActionIcon, GoodsActionButton,Button,Sku,SwipeCell,Card,Stepper,Checkbox,SubmitBar,Form,Field,Cell,Icon,Uploader,AddressList,AddressEdit,Tab, Tabs,Steps,Step,DropdownMenu, DropdownItem, } from 'vant';
 
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
+Vue.use(Step);
+Vue.use(Steps);
+Vue.use(Tab);
+Vue.use(Tabs);
 Vue.use(AddressEdit);
 Vue.use(AddressList);
 Vue.use(Uploader);

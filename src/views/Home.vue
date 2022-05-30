@@ -7,7 +7,7 @@
       <div class="logWarp">
         <img src="../assets/images/logo.png" alt="">
       </div>
-      <van-search v-model="value" shape="round" placeholder="请输入搜索关键词" />
+      <van-search v-model="value" shape="round" @focus="$router.push('/home/index/search')" placeholder="请输入搜索关键词" />
     </div>
 
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
@@ -35,17 +35,17 @@
 </template>
 
 <script>
-import { fetchSwipe, fetchGoods } from '../api/home.js';
-import backTop from '../components/BackTop.vue'
-import GoodsList from '../components/GoodsList.vue'
-import src1 from '../assets/images/1.png';
-import src2 from '../assets/images/2.png';
-import src3 from '../assets/images/3.png';
-import src4 from '../assets/images/4.png';
-import src5 from '../assets/images/5.png';
-import src6 from '../assets/images/6.png';
-import src7 from '../assets/images/7.png';
-import src8 from '../assets/images/8.png';
+import { fetchSwipe, fetchGoods } from '@api/home.js';
+import backTop from '@/components/BackTop.vue'
+import GoodsList from '@/components/GoodsList.vue'
+import src1 from '@/assets/images/1.png';
+import src2 from '@/assets/images/2.png';
+import src3 from '@/assets/images/3.png';
+import src4 from '@/assets/images/4.png';
+import src5 from '@/assets/images/5.png';
+import src6 from '@/assets/images/6.png';
+import src7 from '@/assets/images/7.png';
+import src8 from '@/assets/images/8.png';
 export default {
   data() {
     return {
@@ -92,7 +92,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/scss/common.scss';
+@import '@/assets/scss/common.scss';
 
 .home {
   .search {

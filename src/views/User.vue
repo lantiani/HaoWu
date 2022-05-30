@@ -7,31 +7,34 @@
       </div>
       <div class="user-info-text">{{ isLoginText }}</div>
     </div>
-
-    <van-cell title="我的订单" is-link value="" />
-    <div class="order">
-      <div class="order-from">
-        <van-icon name="pending-payment" size="1.5rem" />
-        <div class="order-msg-text">待付款</div>
+    <div class="orderCellWarp">
+      <van-cell title="我的订单" is-link value="" to="/order" />
+      <div class="order">
+        <div class="order-from">
+          <van-icon name="pending-payment" size="1.5rem" />
+          <div class="order-msg-text">待付款</div>
+        </div>
+        <div class="order-from">
+          <van-icon name="logistics" size="1.5rem" />
+          <div class="order-msg-text">待收货</div>
+        </div>
+        <div class="order-from">
+          <van-icon name="sign" size="1.5rem" />
+          <div class="order-msg-text">退换保修</div>
+        </div>
       </div>
-      <div class="order-from">
-        <van-icon name="logistics" size="1.5rem" />
-        <div class="order-msg-text">待收货</div>
+
+      <OrderCell leftIocn="vip-card-o" leftText="会员中心" iocColor="#1989fa" />
+
+      <OrderCell leftIocn="smile-comment-o" leftText="服务中心" iocColor="#1989fa" />
+
+      <OrderCell leftIocn="gift-card-o" leftText="地址管理" iocColor="#1989fa" link="/Address" />
+
+      <OrderCell leftIocn="setting" iocColor="#1989fa" leftText="设置" />
+
+      <div style="margin: 16px">
+        <van-button round block type="danger" native-type="submit" @click="outLogin">退出登录</van-button>
       </div>
-      <div class="order-from">
-        <van-icon name="sign" size="1.5rem" />
-        <div class="order-msg-text">退换保修</div>
-      </div>
-    </div>
-    <OrderCell leftIocn="vip-card-o" leftText="会员中心" iocColor="#1989fa" />
-
-    <OrderCell leftIocn="smile-comment-o" leftText="服务中心" iocColor="#1989fa" />
-
-    <OrderCell leftIocn="gift-card-o" leftText="地址管理" iocColor="#1989fa" link="/Address" />
-
-    <OrderCell leftIocn="setting" iocColor="#1989fa" leftText="设置" />
-    <div style="margin: 16px">
-      <van-button round block type="danger" native-type="submit" @click="outLogin">退出登录</van-button>
     </div>
   </div>
 </template>
@@ -55,7 +58,7 @@ export default {
   methods: {
     // 点击登录
     login() {
-      // 判断是否登录了 登录了 就不去登录页 不弹出服务条款
+      // 判断是否登录了 登录了 就不去登录页 不弹出登录页面
       if (this.$store.state.userInfo.length === 0) {
         Dialog.confirm({
           message: '请先登录'
@@ -84,7 +87,10 @@ export default {
       }
     },
     fetchFile() {
-      this.$refs.imgInfo.click();
+      if (this.$store.state.userInfo.length !== 0) {
+        this.$refs.imgInfo.click();
+      }
+
     },
     async uploadFile() {
       // 此时可以自行将文件上传至服务器
@@ -95,8 +101,8 @@ export default {
       formData.append('user_id', id)
       // 更新用户头像
       // console.log(file.files,'file');
-      let {src} = await fetchUpload(formData);
-      this.$store.commit('uploadImg',src)
+      let { src } = await fetchUpload(formData);
+      this.$store.commit('uploadImg', src)
     }
   },
   computed: {
@@ -121,7 +127,7 @@ export default {
 
 .user-info {
   background: deepskyblue;
-  height: 160px;
+  height: 200px;
   padding: 0 20px;
   @include flex-center-center;
 
@@ -156,5 +162,14 @@ export default {
   .van-button--info {
     background: red;
   }
+}
+
+.orderCellWarp {
+  position: absolute;
+  top: 20%;
+  width: 100%;
+  border-radius: 20px;
+  background: #fff;
+  overflow: hidden;
 }
 </style>

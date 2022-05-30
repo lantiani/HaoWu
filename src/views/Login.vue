@@ -9,8 +9,10 @@
                 <van-button round block type="info" native-type="submit">提交</van-button>
             </div>
         </van-form>
-        <div>
-            <router-link to="/register">没有账户?去注册？</router-link>
+        <div class="register">
+            <router-link to="/register">
+                <span class="text">没有账户?去注册？</span>
+            </router-link>
         </div>
     </div>
 </template>
@@ -39,5 +41,12 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+    .register {
+        text-align: center;
+        .text {
+            color: #ccc;
+            font-size: 12px;
+        }
+    }
 </style>
