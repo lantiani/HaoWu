@@ -130,6 +130,10 @@ const routes = [
             isIndexShow: true
         }
     },
+    {
+        path:'/test',
+        component:() => import('../views/Test.vue'),
+    },
 ]
 
 const router = new VueRouter({

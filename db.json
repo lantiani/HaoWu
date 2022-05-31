@@ -1,0 +1,7 @@
+{
+    "user":[
+        {"id":1,"username":"李白"},
+        {"id":2,"username":"韩信"},
+        {"id":3,"username":"张良"}
+    ]
+}
